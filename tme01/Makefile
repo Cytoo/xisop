@@ -1,13 +1,12 @@
-CC=gcc  -Wall -ansi -Wextra -Wfloat-equal -Wshadow -Wunreachable-code -Werror 
-BIN=bin
-INC=include
-LIB=lib
-OBJ=obj
-SRC=src
-AR=ar
+CC  = gcc -Wall -Wextra -Wfloat-equal -Wshadow -Wunreachable-code -Werror
+BIN = bin
+INC = include
+LIB = lib
+OBJ = obj
+SRC = src
+AR  = ar
 
-
-all: max_calcul nfork procstr
+all: max_calcul nfork procstr sync
 
 ${OBJ}/max_func.o: ${SRC}/max_func.c
 	${CC} -c -o ${OBJ}/max_func.o ${SRC}/max_func.c -I${INC}
@@ -27,6 +26,9 @@ ${BIN}/procstr: ${OBJ}/procstr.o
 ${BIN}/nfork: ${SRC}/nfork.c
 	${CC} -o ${BIN}/nfork ${SRC}/nfork.c
 
+${BIN}/sync: ${SRC}/sync.c
+	${CC} -o ${BIN}/sync ${SRC}/sync.c
+
 max_calcul: ${BIN}/max_calcul
 	echo "Compiling max_calcul"
 
@@ -35,6 +37,9 @@ procstr: ${BIN}/procstr
 
 nfork:	${BIN}/nfork
 	echo "Compiling nfork"
+
+sync:	${BIN}/sync
+	echo "Compiling sync"
 
 clean:
 	rm -f ${OBJ}/* ${BIN}/* ${LIB}/*
