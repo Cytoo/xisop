@@ -15,7 +15,7 @@ ${OBJ}/max_calcul.o: ${INC}/max_func.h ${SRC}/max_calcul.c
 	${CC} -c -o ${OBJ}/max_calcul.o ${SRC}/max_calcul.c -I${INC}
 
 ${OBJ}/procstr.o: ${SRC}/procstr.c
-	${CC} -c -o ${OBJ}/procstr.o ${SRC}/procstr.c
+	${CC} -c -o ${OBJ}/procstr.o ${SRC}/procstr.c -I${INC}
 
 ${BIN}/max_calcul: ${OBJ}/max_calcul.o ${OBJ}/max_func.o
 	${CC} -o ${BIN}/max_calcul ${OBJ}/max_calcul.o ${OBJ}/max_func.o

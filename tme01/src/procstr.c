@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 	pids[0] = getpid();
 	printf("initial process %d\n", pids[0]);
 
-	int i;
+	int i,r,status;
 	for(i = 1; i <= nb; i++)
 	{
 		pid_t t;
@@ -40,11 +40,13 @@ int main(int argc, char **argv)
 			if(i == nb)
 			{
 				int j;
+				r = (int)(rand()/(((double)RAND_MAX +1)/100));
 				for(j = 0; j <= nb; j++)
 				{
 					printf("%d: %d . %d\n", getpid(), j, pids[j]);
 				}
-				
+				printf("rand : %d\n",r);
+				exit(r);
 			}
 		}
 		else if ( t == -1)
@@ -54,14 +56,20 @@ int main(int argc, char **argv)
 		}
 		else
 		{
-			wait(NULL);
+			wait(&status);
 			printf("%d: father %d, child %d\n", getpid(), getppid(), t);
-			exit(EXIT_SUCCESS);
+			r = WEXITSTATUS(status);
+			if(i == 1)
+			{
+				printf("rand : %d\n",r);
+			}
+			exit(r);
 		}
 		
 	}
-	
-
+	wait(&status);
+	r = WEXITSTATUS(status);
+	printf("rand : %d",r);
 	free(pids);
 	
 	return 0;
