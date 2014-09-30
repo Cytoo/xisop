@@ -1,4 +1,4 @@
-CC  = gcc -Wall -Wextra -Wfloat-equal -Wshadow -Wunreachable-code -Werror
+CC  = gcc -Wall -Wextra -Wfloat-equal -Wshadow -Wunreachable-code -Werror -pedantic -std=c99 -O2
 BIN = bin
 INC = include
 LIB = lib
@@ -6,7 +6,13 @@ OBJ = obj
 SRC = src
 AR  = ar
 
-all: max_calcul nfork procstr sync procstr-no-wait procsig
+all: $(OBJ) $(BIN) max_calcul nfork procstr sync procstr-no-wait procsig
+
+$(OBJ):
+	mkdir $@
+
+$(BIN):
+	mkdir $@
 
 ${OBJ}/max_func.o: ${SRC}/max_func.c
 	${CC} -c -o ${OBJ}/max_func.o ${SRC}/max_func.c -I${INC}
