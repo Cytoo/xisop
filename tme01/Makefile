@@ -6,7 +6,7 @@ OBJ = obj
 SRC = src
 AR  = ar
 
-all: max_calcul nfork procstr sync procstr-no-wait
+all: max_calcul nfork procstr sync procstr-no-wait procsig
 
 ${OBJ}/max_func.o: ${SRC}/max_func.c
 	${CC} -c -o ${OBJ}/max_func.o ${SRC}/max_func.c -I${INC}
@@ -32,6 +32,9 @@ ${BIN}/nfork: ${SRC}/nfork.c
 ${BIN}/sync: ${SRC}/sync.c
 	${CC} -o ${BIN}/sync ${SRC}/sync.c
 
+${BIN}/procsig: ${SRC}/procsig.c
+	${CC} -o ${BIN}/procsig ${SRC}/procsig.c
+
 ${BIN}/procstr-no-wait: ${OBJ}/procstr-no-wait.o
 	${CC} -o ${BIN}/procstr-no-wait ${OBJ}/procstr-no-wait.o
 	 
@@ -49,6 +52,9 @@ sync:	${BIN}/sync
 
 procstr-no-wait: ${BIN}/procstr-no-wait
 	@echo "Compiling procstr-no-wait"
+
+procsig:	${BIN}/procsig
+	@echo "Compiling procsig"
 
 clean:
 	rm -f ${OBJ}/* ${BIN}/* ${LIB}/*
