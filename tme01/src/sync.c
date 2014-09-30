@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <signal.h>
 
-void foo(int f) {}
+void nop() {}
 
 int main(int argc, char **argv)
 {
@@ -54,7 +54,7 @@ int main(int argc, char **argv)
 	{	
 		struct sigaction act;
 		sigfillset(&sig_proc);
-		act.sa_handler = foo;
+		act.sa_handler = nop;
 		act.sa_mask = sig_proc;
 		act.sa_flags = 0;
 		sigaction(SIGUSR1, &act, NULL);

@@ -6,11 +6,12 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <time.h>
+
+void nop() {}
 
 int main(int argc, char **argv)
 {
-	srand(time(NULL));
+	
 	if(argc <= 1)
 	{
 		perror("./procstr [nbproc]");
@@ -27,10 +28,20 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 
+	sigset_t sig_proc;
+	sigfillset(&sig_proc);
+	sigprocmask(SIG_BLOCK, &sig_proc, NULL);
+	
+	struct sigaction act;
+	sigfillset(&sig_proc);
+	act.sa_handler = nop;
+	act.sa_mask = sig_proc;
+	act.sa_flags = 0;
+	
 	pids[0] = getpid();
 	printf("initial process %d\n", pids[0]);
 
-	int i,r,status;
+	int i;
 	for(i = 1; i <= nb; i++)
 	{
 		pid_t t;
@@ -41,15 +52,12 @@ int main(int argc, char **argv)
 			if(i == nb)
 			{
 				int j;
-				
-				r = (int)(rand()/(((double)RAND_MAX +1)/100));
-				
 				for(j = 0; j <= nb; j++)
 					printf("%d: %d . %d\n", getpid(), j, pids[j]);
-	
-				printf("rand : %d\n",r);
 				
-				exit(r);
+				kill(pids[i-1],SIGUSR1);
+				
+				exit(EXIT_SUCCESS);
 			}
 		}
 		else if ( t == -1)
@@ -59,18 +67,22 @@ int main(int argc, char **argv)
 		}
 		else
 		{
-			wait(&status);
-			r = WEXITSTATUS(status);
+			sigaction(SIGUSR1, &act, NULL);
+			sigfillset(&sig_proc);
+			sigdelset(&sig_proc,SIGUSR1);
+			sigsuspend(&sig_proc);
 			
 			printf("%d: father %d, child %d\n", getpid(), getppid(), t);
 			
-			if(i == 1)
-				printf("rand : %d\n",r);
-
-			exit(r);
+			if( i != 1)	
+				kill(getppid(),SIGUSR1);
+			
+			exit(EXIT_SUCCESS);
 		}
 		
 	}
 
-	return EXIT_SUCCESS;
+	free(pids);
+	
+	return EXIT_SUCCESS	;
 }
