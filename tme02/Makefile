@@ -6,7 +6,7 @@ OBJ = obj
 SRC = src
 AR  = ar
 
-all: $(OBJ) $(BIN) $(LIB) main
+all: $(OBJ) $(BIN) nthreads mutex sync detach
 
 $(OBJ):
 	mkdir $@
@@ -14,17 +14,29 @@ $(OBJ):
 $(BIN):
 	mkdir $@
 
-$(LIB):
-	mkdir $@
+${BIN}/nthreads: ${SRC}/nthreads.c
+	${CC} -o $@ $^ -I${INC} -lpthread
 
-${OBJ}/nthread.o: ${SRC}/nthread.c
-	${CC} -c -o ${OBJ}/nthread.o ${SRC}/nthread.c -I${INC}
+${BIN}/mutex: ${SRC}/mutex.c
+	${CC} -o $@ $^ -I${INC} -lpthread
 
-${BIN}/nthread: ${OBJ}/nthread.o
-	${CC} -o ${BIN}/nthread ${OBJ}/nthread.o -lpthread
+${BIN}/sync: ${SRC}/sync.c
+	${CC} -o $@ $^ -I${INC} -lpthread
 
-main: ${BIN}/nthread
-	@echo "Compiling nthread"
+${BIN}/detach: ${SRC}/detach.c
+	${CC} -o $@ $^ -I${INC} -lpthread
+
+nthreads: ${BIN}/nthreads
+	@echo "Compiling nthreads"
+
+mutex: ${BIN}/mutex
+	@echo "Compiling mutex"
+
+sync: ${BIN}/sync
+	@echo "Compiling sync"
+
+detach: ${BIN}/detach
+	@echo "Compiling detach"
 
 clean:
-	rm -rf ${OBJ} ${BIN} ${LIB}
+	rm -f ${OBJ}/* ${BIN}/* ${LIB}/*
