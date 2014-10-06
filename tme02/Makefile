@@ -6,7 +6,7 @@ OBJ = obj
 SRC = src
 AR  = ar
 
-all: $(OBJ) $(BIN) nthreads mutex sync detach
+all: $(OBJ) $(BIN) nthreads mutex sync detach barrier
 
 $(OBJ):
 	mkdir $@
@@ -26,6 +26,9 @@ ${BIN}/sync: ${SRC}/sync.c
 ${BIN}/detach: ${SRC}/detach.c
 	${CC} -o $@ $^ -I${INC} -lpthread
 
+${BIN}/barrier: ${SRC}/barrier.c
+	${CC} -o $@ $^ -I${INC} -lpthread
+
 nthreads: ${BIN}/nthreads
 	@echo "Compiling nthreads"
 
@@ -37,6 +40,9 @@ sync: ${BIN}/sync
 
 detach: ${BIN}/detach
 	@echo "Compiling detach"
+
+barrier: ${BIN}/barrier
+	@echo "Compiling barrier"
 
 clean:
 	rm -f ${OBJ}/* ${BIN}/* ${LIB}/*
