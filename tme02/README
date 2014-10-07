@@ -5,20 +5,15 @@ Thomas Medioni
 Boris Berger
 
 ### Files
-
-include/
-└── max_func.h                        # max_func prototype (ex1)
-src
-├── max_calcul.c                      # ex1 main
-├── max_func.c                        # ex1 main_func
-├── nfork.c                           # ex2
-├── procsig.c                         # ex7
-├── procstr.c                         # ex4
-├── procstr-no-wait.c                 # ex6
-└── sync.c                            # ex5
-lib [error opening dir]
-
-0 directories, 8 files
+.
+├── Makefile
+├── README
+└── src
+    ├── barrier.c
+    ├── detach.c
+    ├── mutex.c
+    ├── nthreads.c
+    └── sync.c
 
 ### Build instructions
 
@@ -37,37 +32,20 @@ Build a specific file:
 ### Questions
 
 Ex1:
-    ./bin/max_func NUM [NUM...]
+    ./bin/nthreads  THREAD_COUNT
 
 Ex2:
-    ./bin/nfork
+    ./bin/mutex     THREAD_COUNT
 
-    10 processus sont créés.
-    1
-    FIN
-    2
-    FIN
-    3
-    3
-    FIN
-    FIN
-    FIN
-    FIN
-    FIN
-    FIN
-    FIN
-    FIN
+Ex3:
+    ./bin/sync      THREAD_COUNT
 
 Ex4:
-    ./bin/procstr PROC_COUNT
+    ./bin/detach    THREAD_COUNT
+
+    Note:
+        Pour que les threads soient détachées après leur création, décommenter
+    la ligne 53 et commenter la ligne 49.
 
 Ex5:
-    ./bin/sync
-
-Ex6:
-    ./bin/procstr-no-wait PROC_COUNT
-
-Ex7:
-    ./bin/procsig PROC_COUNT
-
-    Résolu avec le flag SA_NOCLDSTOP
+    ./bin/barrier   THREAD_COUNT
