@@ -6,7 +6,7 @@ OBJ = obj
 SRC = src
 AR  = ar
 
-all: $(OBJ) $(BIN) $(LIB) uppercase pool stack stack_multiple
+all: $(OBJ) $(BIN) $(LIB) uppercase pool stack stack_multiple threadchain
 
 $(OBJ):
 	mkdir $@
@@ -32,6 +32,9 @@ ${OBJ}/stack_main.o: ${SRC}/stack_main.c ${INC}/thread_stack.h
 ${OBJ}/stack_multiple.o: ${SRC}/stack_multiple.c ${INC}/thread_stack.h
 	${CC} -c -o ${OBJ}/stack_multiple.o ${SRC}/stack_multiple.c -I${INC}
 
+${OBJ}/threadchain.o: ${SRC}/threadchain.c
+	${CC} -c -o ${OBJ}/threadchain.o ${SRC}/threadchain.c -I${INC}
+
 ${BIN}/uppercase: ${OBJ}/uppercase.o
 	${CC} -o ${BIN}/uppercase ${OBJ}/uppercase.o
 
@@ -44,6 +47,9 @@ ${BIN}/stack: ${OBJ}/stack_main.o ${OBJ}/thread_stack.o
 ${BIN}/stack_multiple: ${OBJ}/stack_multiple.o ${OBJ}/thread_stack.o
 	${CC} -o ${BIN}/stack_multiple ${OBJ}/stack_multiple.o ${OBJ}/thread_stack.o
 
+${BIN}/threadchain: ${OBJ}/threadchain.o
+	${CC} -o ${BIN}/threadchain ${OBJ}/threadchain.o
+
 uppercase: ${BIN}/uppercase
 	@echo "Compiling uppercase"
 
@@ -55,6 +61,9 @@ stack: ${BIN}/stack
 
 stack_multiple: ${BIN}/stack_multiple
 	@echo "Compiling stack_multiple"
+
+threadchain: ${BIN}/threadchain
+	@echo "Compiling threadchain"
 
 clean:
 	rm -rf ${OBJ} ${BIN} ${LIB}
