@@ -77,10 +77,10 @@ void push(char c)
     buf[1].sem_flg = 0;
     semop(semid, buf, 2);  //We know we can write 
     
-    printf("[%d]: push %c, size %d\n", getpid(), c, *size);
+   // printf("[%d]: push %c, size %d\n", getpid(), c, *size);
     shm[*size] = c;        //Actually writing
     (*size)++;             //it grows
-    printf("[%d]: did push %c, size %d\n", getpid(), c, *size);
+   // printf("[%d]: did push %c, size %d\n", getpid(), c, *size);
 
     buf[0].sem_num  = LOCK;
     buf[0].sem_op   = 1;
@@ -108,10 +108,10 @@ char pop()
     
     semop(semid, buf, 2);
    
-    printf("[%d]: extract size %d\n", getpid(), *size);
+ //   printf("[%d]: extract size %d\n", getpid(), *size);
     char c = shm[*(size - 1)];
     (*size)--;
-    printf("[%d]: extracted %c, size %d\n", getpid(), c, *size);
+   // printf("[%d]: extracted %c, size %d\n", getpid(), c, *size);
 
     buf[0].sem_num = LOCK;
     buf[0].sem_op  = 1;
