@@ -10,8 +10,8 @@
 #include <unistd.h>
 #include <thread_stack.h>
 
-static int shmid = 0;
-static int semid = 0;
+static int shmid = -2;
+static int semid = -2;
 
 static char *shm = NULL;
 static int  *size = NULL;
@@ -21,7 +21,7 @@ static int  *size = NULL;
 
 void careOfShmidSem()
 {
-   if(shmid == 0)
+   if(shmid < -1)
    {
         shmid = shmget(0xC0FFEE, STACK_SIZE + 1 * sizeof(int) , IPC_CREAT | IPC_EXCL | 0600);
         
@@ -34,7 +34,7 @@ void careOfShmidSem()
         size =(int*) (shm + 100);
    }
 
-   if(semid == 0)
+   if(semid < -1)
    {
        semid = semget(0xC0FFEE,  3, IPC_CREAT| IPC_EXCL | 0600);
 
