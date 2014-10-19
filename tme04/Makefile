@@ -6,7 +6,7 @@ OBJ = obj
 SRC = src
 AR  = ar
 
-all: $(OBJ) $(BIN) $(LIB) fence stack multiqueue
+all: $(OBJ) $(BIN) $(LIB) randomqueue randomshm fence stack multiqueue
 
 $(OBJ):
 	mkdir $@
@@ -20,6 +20,12 @@ $(LIB):
 ${OBJ}/fence.o: ${SRC}/fence.c
 	${CC} -c -o ${OBJ}/fence.o ${SRC}/fence.c -I${INC}
 
+${OBJ}/randomqueue.o: ${SRC}/randomqueue.c
+	${CC} -c -o ${OBJ}/randomqueue.o ${SRC}/randomqueue.c -I${INC}
+
+${OBJ}/randomshm.o: ${SRC}/randomshm.c
+	${CC} -c -o ${OBJ}/randomshm.o ${SRC}/randomshm.c -I${INC}
+
 ${OBJ}/stack_multiple.o: ${SRC}/stack_multiple.c
 	${CC} -c -o ${OBJ}/stack_multiple.o ${SRC}/stack_multiple.c -I${INC}
 
@@ -32,6 +38,12 @@ ${OBJ}/multiqueue.o: ${SRC}/multiqueue.c
 ${BIN}/fence: ${OBJ}/fence.o
 	${CC} -o ${BIN}/fence ${OBJ}/fence.o
 
+${BIN}/randomqueue: ${OBJ}/randomqueue.o
+	${CC} -o ${BIN}/randomqueue ${OBJ}/randomqueue.o
+
+${BIN}/randomshm: ${OBJ}/randomshm.o
+	${CC} -o ${BIN}/randomshm ${OBJ}/randomshm.o
+
 ${BIN}/stack: ${OBJ}/stack_multiple.o ${OBJ}/stack_implementation.o
 	${CC} -o ${BIN}/stack ${OBJ}/stack_multiple.o ${OBJ}/stack_implementation.o
 
@@ -42,6 +54,12 @@ ${BIN}/multiqueue: ${OBJ}/multiqueue.o
 
 fence: ${BIN}/fence
 	@echo "Compiling fence"
+
+randomqueue: ${BIN}/randomqueue
+	@echo "Compiling randomqueue"
+
+randomshm: ${BIN}/randomshm
+	@echo "Compiling randomshm"
 
 stack: ${BIN}/stack
 	@echo "Compiling multiple stack"
