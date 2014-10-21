@@ -6,7 +6,7 @@ OBJ = obj
 SRC = src
 AR  = ar
 
-all: $(OBJ) $(BIN) $(LIB) randomqueue randomshm fence stack multiqueue
+all: $(OBJ) $(BIN) $(LIB) randomqueue randomshm fence stack singlequeue multiqueue
 
 $(OBJ):
 	mkdir $@
@@ -35,6 +35,9 @@ ${OBJ}/stack_implementation.o: ${SRC}/stack_implementation.c
 ${OBJ}/multiqueue.o: ${SRC}/multiqueue.c
 	${CC} -c -o ${OBJ}/multiqueue.o ${SRC}/multiqueue.c -I${INC}
 
+${OBJ}/singlequeue.o: ${SRC}/singlequeue.c
+	${CC} -c -o ${OBJ}/singlequeue.o ${SRC}/singlequeue.c -I${INC}
+
 ${BIN}/fence: ${OBJ}/fence.o
 	${CC} -o ${BIN}/fence ${OBJ}/fence.o
 
@@ -51,6 +54,9 @@ ${BIN}/multiqueue: ${OBJ}/multiqueue.o
 	${CC} -o ${BIN}/multiqueue ${OBJ}/multiqueue.o
 
 
+${BIN}/singlequeue: ${OBJ}/singlequeue.o
+	${CC} -o ${BIN}/singlequeue ${OBJ}/singlequeue.o
+
 
 fence: ${BIN}/fence
 	@echo "Compiling fence"
@@ -66,6 +72,9 @@ stack: ${BIN}/stack
 
 multiqueue: ${BIN}/multiqueue
 	@echo "Compiling multiqueue"
+
+singlequeue: ${BIN}/singlequeue
+	@echo "Compiling singlequeue"
 
 clean:
 	rm -rf ${OBJ} ${BIN} ${LIB}
