@@ -6,19 +6,17 @@ Boris Berger
 
 ### Files
 
-include/
-└── max_func.h                        # max_func prototype (ex1)
-src
-├── max_calcul.c                      # ex1 main
-├── max_func.c                        # ex1 main_func
-├── nfork.c                           # ex2
-├── procsig.c                         # ex7
-├── procstr.c                         # ex4
-├── procstr-no-wait.c                 # ex6
-└── sync.c                            # ex5
-lib [error opening dir]
-
-0 directories, 8 files
+.
+├── include
+│   └── thread_stack.h               # stack interface for ex6
+└── src
+    ├── fence.c                      # ex5
+    ├── multiqueue.c                 # ex3
+    ├── randomqueue.c                # ex1
+    ├── randomshm.c                  # ex2
+    ├── singlequeue.c                # ex4
+    ├── stack_implementation.c       # stack implementation for ex6
+    └── stack_multiple.c             # ex6
 
 ### Build instructions
 
@@ -37,37 +35,19 @@ Build a specific file:
 ### Questions
 
 Ex1:
-    ./bin/max_func NUM [NUM...]
+    ./bin/random_queue NB_THREADS
 
 Ex2:
-    ./bin/nfork
+    ./bin/random_shm NB_THREADS
 
-    10 processus sont créés.
-    1
-    FIN
-    2
-    FIN
-    3
-    3
-    FIN
-    FIN
-    FIN
-    FIN
-    FIN
-    FIN
-    FIN
-    FIN
+Ex3:
+    ./bin/multiqueue NPROC
 
 Ex4:
-    ./bin/procstr PROC_COUNT
+    ./bin/singlequeue NPROC
 
 Ex5:
-    ./bin/sync
+    ./bin/fence NPROC
 
 Ex6:
-    ./bin/procstr-no-wait PROC_COUNT
-
-Ex7:
-    ./bin/procsig PROC_COUNT
-
-    Résolu avec le flag SA_NOCLDSTOP
+    ./bin/stack NB_PROD NB_CONS
