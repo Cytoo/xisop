@@ -2,12 +2,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <signal.h>
 #include <thread_stack.h>
-
 
 void producteur() 
 {
@@ -37,9 +37,9 @@ void consommateur()
 int main (int argc, char ** argv)
 {
 
-    if(argc != 3)
+    if(argc != 3 || !strcmp(argv[1], "-h"))
     {
-        printf("usage: %s NB_PROD NB_CONS\n", argv[0]);
+        fprintf(stderr, "usage: %s NB_PROD NB_CONS\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 

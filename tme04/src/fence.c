@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/sem.h>
@@ -68,9 +69,9 @@ void process(int nbproc)
 
 int main(int argc, char **argv)
 {
-    if(argc != 2)
+    if(argc != 2 || !strcmp(argv[1], "-h"))
     {
-        printf("usage: %s NPROC\n", argv[0]);
+        fprintf(stderr, "usage: %s NPROC\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
