@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <time.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -46,9 +47,9 @@ void child(int* mq, int nbproc, int idproc)
 
 int main(int argc, char** argv)
 {
-    if(argc != 2)
+    if(argc != 2 || !strcmp(argv[1], "-h"))
     {
-        printf("usage: %s NPROC\n", argv[0]);
+        fprintf(stderr, "usage: %s NPROC\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 

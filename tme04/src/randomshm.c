@@ -1,6 +1,7 @@
 #define _SVID_SOURCE 1
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <time.h>
 #include <sys/types.h>
@@ -15,8 +16,8 @@ int main(int argc, char** argv) {
     pid_t pid;
     key_t key;
 
-    if(argc < 2){
-        perror("usage: randomshm NB_THREADS");
+    if(argc != 2 || !strcmp(argv[1], "-h")) {
+        fprintf(stderr, "usage: %s NB_THREADS\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
