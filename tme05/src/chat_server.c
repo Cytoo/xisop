@@ -34,8 +34,8 @@ int main(int argc, char ** argv){
     sem_t *sem_write_client[MAX_CLIENTS], *sem_read_client[MAX_CLIENTS];
     char st_read[ST_SIZE], st_write[ST_SIZE], st_shm_client[ST_SIZE];
 
-    if(argc != 2){
-        printf("usage : %s server_id",argv[0]);
+    if(argc != 2 || !strcmp(argv[1], "-h")) {
+        fprintf(stderr, "usage : %s server_id\n", argv[0]);
         return EXIT_FAILURE;
     }
 

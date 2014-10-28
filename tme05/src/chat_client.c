@@ -50,8 +50,8 @@ int main(int argc, char ** argv){
     int shm_client;
     char buf[BUF_SIZE],st_read[ST_SIZE],st_write[ST_SIZE],st_shm_client[ST_SIZE];
 
-    if(argc != 3){
-        printf("usage : %s server_id client_id",argv[0]);
+    if(argc != 3 || !strcmp(argv[1], "-h") || !strcmp(argv[2], "-h")) {
+        fprintf(stderr, "usage : %s server_id client_id",argv[0]);
         return EXIT_FAILURE;
     }
 
