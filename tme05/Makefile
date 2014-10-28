@@ -1,3 +1,3 @@
-PROGRAMS = chat_server chat_client
+PROGRAMS = posixshm chat_server chat_client
 LDFLAGS = -lrt
 include ../Makefile.inc
