@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <signal.h>
+#include <stdbool.h>
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <semaphore.h>
@@ -19,7 +21,15 @@ struct request {
     char content[BUF_SIZE];
 };
 
+/* Global variables */
+bool run = true;
 
+/* SIGINT handler */
+void stop(){
+	run = false;
+}
+
+/* Main */
 int main(int argc, char ** argv){
     struct request *msg, *msg_out;
 
@@ -38,6 +48,16 @@ int main(int argc, char ** argv){
         fprintf(stderr, "usage : %s server_id\n", argv[0]);
         return EXIT_FAILURE;
     }
+
+	/* Assign SIGINT hanlder*/
+	sigset_t sig_proc;
+	sigfillset(&sig_proc);
+
+    struct sigaction act;
+    act.sa_handler = stop;
+    act.sa_mask = sig_proc;
+    act.sa_flags = 0;
+    sigaction(SIGINT, &act, NULL);
 
     /* Create connection strings  */
     sprintf(st_msgread,"/%s_sem:0",argv[1]);
@@ -80,7 +100,7 @@ int main(int argc, char ** argv){
         clients[i] = NULL;
     }
 
-    for(;;){
+    while(run){
         sem_wait(sem_msgread);
         /* Connection */
         if(msg->type == 0){

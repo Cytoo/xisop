@@ -4,7 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <errno.h>
+#include <signal.h>
+#include <stdbool.h>
 #include <pthread.h>
 #include <sys/wait.h>
 #include <sys/types.h>
@@ -21,6 +22,7 @@ struct request {
 };
 
 /* Global variables */
+bool run = true;
 struct request *msg_in;
 sem_t *sem_read,*sem_write;
 char last[BUF_SIZE];
@@ -37,7 +39,12 @@ void* display_thread(){
     }
 }
 
+/* SIGINT handler */
+void stop(){
+	run = false;
+}
 
+/* Main */
 int main(int argc, char ** argv){
     struct request *msg;
 
@@ -54,6 +61,16 @@ int main(int argc, char ** argv){
         fprintf(stderr, "usage : %s server_id client_id",argv[0]);
         return EXIT_FAILURE;
     }
+	
+	/* Assign SIGINT hanlder*/
+	sigset_t sig_proc;
+	sigfillset(&sig_proc);
+
+    struct sigaction act;
+    act.sa_handler = stop;
+    act.sa_mask = sig_proc;
+    act.sa_flags = 0;
+    sigaction(SIGINT, &act, NULL);
 
     /* Create connection strings  */
     sprintf(st_msgread,"/%s_sem:0",argv[1]);
@@ -134,7 +151,7 @@ int main(int argc, char ** argv){
     pthread_t t;
     pthread_create(&t, NULL, display_thread, NULL);
 
-    while (ir > 0) 
+    while (ir > 0 && run) 
     {
         for (i = 0; i < BUF_SIZE ; i++)
             buf[i] = '\0';
@@ -161,7 +178,14 @@ int main(int argc, char ** argv){
     /* Closing and unlinking shared ressources*/
     sem_close(sem_msgread);
     sem_close(sem_msgwrite);
-    munmap(msg,sizeof(struct request));
+    sem_close(sem_read);
+	sem_close(sem_write);
+	munmap(msg,sizeof(struct request));
+	munmap(msg_in,sizeof(struct request));
+ 	
+	sem_unlink(st_read);
+ 	sem_unlink(st_write);
+	shm_unlink(st_shm_client);
 
     return EXIT_SUCCESS;
 }
