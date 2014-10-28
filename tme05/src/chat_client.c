@@ -33,7 +33,7 @@ void* display_thread(){
     {
         sem_wait(sem_read);
         if(strcmp(last,msg_in->content)!=0)
-            if ((fprintf(stdout, msg_in->content)) < 0 )
+            if(fputs(msg_in->content, stdout) < 0)
                 perror("print");
         sem_post(sem_write);
     }
@@ -161,9 +161,9 @@ int main(int argc, char ** argv){
             break;
         sem_wait(sem_msgwrite);
         msg->type = 1;
-        sprintf(msg->content,buf);
+        strcpy(msg->content, buf);
         sem_post(sem_msgread);
-        sprintf(last,buf);
+        strcpy(last, buf);
     }
 
     /* Disconnect */
