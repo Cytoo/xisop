@@ -45,7 +45,7 @@ README:
 		printf "    "; \
 		./$(BIN)/$$prog -h; \
 		echo; \
-		((num = num + 1)); \
+		num=$$((num = num + 1)); \
 	done >> $@ 2>&1
 
 clean:
