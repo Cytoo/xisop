@@ -76,9 +76,9 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
 
-    ftruncate(shm_id, 3 * sizeof(sem_t*));
+    ftruncate(shm_id, 3 * sizeof(sem_t));
 
-    if((addr_at = mmap(NULL, 3 * sizeof(sem_t*),
+    if((addr_at = mmap(NULL, 3 * sizeof(sem_t),
                        PROT_READ | PROT_WRITE, MAP_SHARED, shm_id, 0))
         == MAP_FAILED)
     {
@@ -87,8 +87,8 @@ int main(int argc, char **argv)
     }
 
     waiting = (sem_t*) addr_at;
-    fence = (sem_t*) (addr_at + sizeof(sem_t*));
-    mutex = (sem_t*) (addr_at + 2 * sizeof(sem_t*));
+    fence = (sem_t*) (addr_at + sizeof(sem_t));
+    mutex = (sem_t*) (addr_at + 2 * sizeof(sem_t));
 
     int s1 = sem_init(waiting, 1, 0);
     int s2 = sem_init(fence, 1, 0);
