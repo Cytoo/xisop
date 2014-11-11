@@ -1,2 +1,2 @@
-PROGRAMS = exec mycp
+PROGRAMS = exec mycp mycp-mmap
 include Makefile.inc
