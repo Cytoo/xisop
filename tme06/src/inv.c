@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-    out_name = malloc(sizeof(char)*(strlen(argv[1]+4)));
+    out_name = malloc(sizeof(char)*(strlen(argv[1])+4));
     sprintf(out_name,"%s.inv",argv[1]);
 
     if((fd_out = open(out_name, O_WRONLY | O_CREAT | O_TRUNC, 0644)) == -1)
