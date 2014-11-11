@@ -1,2 +1,2 @@
 PROGRAMS = main
-include ../Makefile.inc
+include Makefile.inc
