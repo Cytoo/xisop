@@ -1,2 +1,2 @@
-PROGRAMS = exec mycp mycp-mmap
+PROGRAMS = exec mycp mycp-mmap randomfile
 include Makefile.inc
