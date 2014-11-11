@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     char* out_name;
     char c;
 
-    if(argc != 2)
+    if(argc != 2 || !strcmp(argv[1], "-h"))
     {
         fprintf(stderr,"usage: %s FILE\n",argv[0]);
         return EXIT_FAILURE;

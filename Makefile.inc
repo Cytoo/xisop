@@ -45,6 +45,10 @@ README:
 		printf "    "; \
 		./$(BIN)/$$prog -h; \
 		echo; \
+        if [ -e ./answers/$$num ]; then \
+            cat ./answers/$$num; \
+            echo; \
+        fi; \
 		num=$$((num = num + 1)); \
 	done >> $@ 2>&1
 
