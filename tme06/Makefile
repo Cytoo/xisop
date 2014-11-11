@@ -1,2 +1,2 @@
-PROGRAMS = exec mycp mycp-mmap randomfile read-posix read-c
+PROGRAMS = exec mycp mycp-mmap inv randomfile read-posix read-c
 include Makefile.inc
