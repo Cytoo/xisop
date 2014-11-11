@@ -1,0 +1,3 @@
+Dans le cas des fonctions POSIX, les différents processus effectuent des accès
+concurrents au fichier et affichent les caractères dans le désordre.
+Avec les fonctions C, un seul processus accède au fichier.
