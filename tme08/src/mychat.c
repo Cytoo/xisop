@@ -50,6 +50,7 @@ int main(int argc, char *argv[]) {
     struct sigaction handler;
     struct sockaddr_in servad;
     struct sockaddr_in dest;
+    struct addrinfo *info;
     struct msg_chat msg;
     int mode, port;
     int on = 1, running = 1, ir = 1, i = 0;
@@ -80,9 +81,18 @@ int main(int argc, char *argv[]) {
     setsockopt(sock_bc, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on));
     setsockopt(sock_bc, SOL_SOCKET, SO_BROADCAST, &on, sizeof(on));
 
+    /* get server address and set up server sockaddr */
+    if (getaddrinfo(argv[1], NULL, NULL, &info) != 0) {
+        perror("getaddrinfo");
+        return EXIT_FAILURE;
+    }
+
     /* Bind socket */
     memset((void *)&servad,0, sizeof(servad));
-    servad.sin_addr.s_addr = htonl(INADDR_BROADCAST);
+    //servad.sin_addr.s_addr = htonl(INADDR_BROADCAST);
+    memcpy((void*)&servad.sin_addr,
+            (void*)&((struct sockaddr_in*)(info->ai_addr))->sin_addr,
+            sizeof(servad));
     servad.sin_family = AF_INET;
     servad.sin_port = htons(port);
     if (bind(sock_bc,(struct sockaddr *)&servad,sizeof(servad)) < 0) {
