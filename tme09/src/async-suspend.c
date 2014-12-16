@@ -1,3 +1,4 @@
+#define _POSIX_C_SOURCE 199309L
 #define _POSIX_SOURCE 1
 
 #include <aio.h>
