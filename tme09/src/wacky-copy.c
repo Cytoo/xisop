@@ -38,14 +38,13 @@ int main(int argc, char **argv){
         a[i].aio_nbytes = 1;
         a[i].aio_reqprio = 0;
         a[i].aio_lio_opcode = LIO_WRITE;
-        //a[i].aio_sigevent.sigev_notify = SIGEV_SIGNAL;
+        a[i].aio_sigevent.sigev_notify = SIGEV_NONE;
         //a[i].aio_sigevent.sigev_signo = SIGRTMIN;
         list[i] = &(a[i]);
     }
 
     /* Main loop */
     while ( (rd = read(fdr,buf,10)) > 0 ){
-        printf("%s\n",buf);
         /* Fill the aiocbs with read values */
         for(i = 0; i < rd ; i++){
             a[i].aio_offset = offset++ ;
