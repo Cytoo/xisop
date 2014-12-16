@@ -1,0 +1,6 @@
+1. Le père doit se synchroniser avec ses fils car il ne peut pas svoir quand une
+   AIO particulière s'est terminée. Il doit donc attendre la terminaison de tous
+   ses fils pour lancer les lectures.
+    
+2. Les fils n'ont pas besoin de se synchroniser entre eux car ils écrivent à des
+   emplacements différents du fichier.
